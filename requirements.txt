@@ -1,0 +1,5 @@
+couchdb-python-curl==1.1.6
+Django==1.8.17
+django-annoying==0.10.3
+django-couch-utils==1.5.5
+django-crispy-forms==1.6.1
