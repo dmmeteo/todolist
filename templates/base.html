@@ -1,0 +1,20 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Home{% endblock %} - TODOlist</title>
+    <link rel="shortcut icon" href="{% static 'icons/favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'vendor/tether/css/tether.min.css' %}"/>
+</head>
+<body>
+    {% block content %}
+    {% endblock %}
+
+    <script src="{% static 'vendor/bootstrap/js/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/ie10-viewport-bug-workaround.js' %}"></script>
+    <script src="{% static 'vendor/tether/js/tether.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
