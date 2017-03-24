@@ -1,9 +1,25 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}
     {{ title }}
 {% endblock %}
 
 {% block content %}
-    {{ content }}
+    <form method="post" class="form-inline" action="">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">Create task</button>
+    </form><br>
+
+    {% for task in tasks %}
+    <div class="alert {{ task.priority }}" role="alert">
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+        {{ task.text }}
+    </div>
+    {% endfor %}
 {% endblock %}

@@ -7,11 +7,38 @@
     <link rel="shortcut icon" href="{% static 'icons/favicon.png' %}">
     <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'vendor/tether/css/tether.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'main.css' %}"/>
 </head>
 <body>
-    {% block content %}
-    {% endblock %}
+    <div class="d-flex justify-content-around align-self-center">
+        <h1 class="display-4 ">Home - TODOlist</h1>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-7 col-sm-12 offset-md-2">
+                {% block content %}
+                {% endblock %}
+            </div>
+            <div class="col-md-3 col-lg-2 col-sm-12">
+                <nav class="nav flex-md-column flex-sm-row justify-content-center">
+                    <p class="nav-link">4 items left</p>
 
+                    <a class="nav-link" href="#">All</a>
+                    <a class="nav-link" href="#">Active</a>
+                    <a class="nav-link" href="#">Completed</a>
+
+                    <a class="nav-link disabled" href="#">Clear completed</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <a href="https://github.com/dmmeteo/todolist" target="_blank">GitHub</a>
+            <span class="text-muted">Discover the CoachDB.</span>
+        </div>
+    </footer>
     <script src="{% static 'vendor/bootstrap/js/jquery.min.js' %}"></script>
     <script src="{% static 'vendor/bootstrap/js/ie10-viewport-bug-workaround.js' %}"></script>
     <script src="{% static 'vendor/tether/js/tether.min.js' %}"></script>
