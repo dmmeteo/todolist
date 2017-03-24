@@ -2,7 +2,7 @@ from django import forms
 
 
 class CreateTask(forms.Form):
-    error_css_class = 'error'
+    error_css_class = 'has-danger'
     required_css_class = 'required'
 
     priority = forms.CharField(label=False, widget=forms.TextInput(attrs={"placeholder": "Task priority"}))

@@ -11,15 +11,19 @@
         {{ form|crispy }}
         <button type="submit" class="btn btn-primary">Create task</button>
     </form><br>
-
+    {% if tasks|length > 0 %}
     {% for task in tasks %}
-    <div class="alert {{ task.priority }}" role="alert">
+        <div class="alert {{ task.value.priority }}" role="alert">
 
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
 
-        {{ task.text }}
-    </div>
+            {{ task.value.description }}
+        </div>
     {% endfor %}
+    {% else %}
+        <div class="alert">Sorry. No tasks todo....</div>
+    {% endif %}
 {% endblock %}
+
