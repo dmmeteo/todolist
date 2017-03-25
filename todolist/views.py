@@ -10,9 +10,7 @@ import django_couch
 @render_to('home.html')
 def tasks_list(request):
     title = 'Home'
-    tasks = request.db.view('tasks/all_tasks').rows
-    for task in tasks:
-        print task.value
+    tasks = request.db.view('tasks/active').rows
     form = CreateTask(request.POST or None)
 
     if request.POST and form.is_valid():
@@ -26,7 +24,7 @@ def tasks_list(request):
         task_id = 'task_%s' % now.strftime("%d_%m_%Y_%H_%M_%S")
 
         doc.create(task_id)
-        form = CreateTask(None)
         return redirect('/')
 
     return {'title': title, 'tasks': tasks, 'form': form}
+

@@ -10,10 +10,11 @@
     <link rel="stylesheet" href="{% static 'main.css' %}"/>
 </head>
 <body>
-    <div class="d-flex justify-content-around align-self-center">
-        <h1 class="display-4 ">Home - TODOlist</h1>
-    </div>
     <div class="container-fluid">
+        <div class="d-flex justify-content-around align-self-center">
+            <h1 class="display-1 ">todos</h1>
+        </div>
+        <br>
         <div class="row">
             <div class="col-md-7 col-sm-12 offset-md-2">
                 {% block content %}
