@@ -9,18 +9,23 @@
         {{ form|crispy }}
         <button type="submit" class="btn btn-primary">Create task</button>
     </form><br>
-    {% if tasks|length > 0 %}
     {% for task in tasks %}
 
-        {% if task.value.status != 'deleted' %}
+        {% if task.value.status != 'closed' %}
 
             <div id="{{ task.id }}" class="alert {{ task.value.priority }}" role="alert">
 
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <button type="button" class="close" data-task-id="{{ task.id }}" data-status="closed" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <button type="button" class="done" data-task-id="{{ task.id }}" aria-label="Done">
-                    <span aria-hidden="true">&#10003;</span>
+                <button type="button" class="done" data-task-id="{{ task.id }}" data-status="{{ task.value.status }}" aria-label="Done">
+                <span aria-hidden="true">
+                    {% if task.value.status == 'active' %}
+                        &#10003;
+                    {% else %}
+                        +
+                    {% endif %}
+                </span>
                 </button>
 
                 {% if task.value.status == 'active' %}
@@ -31,9 +36,8 @@
             </div>
 
         {% endif %}
-
-    {% endfor %}
-    {% else %}
+    {% empty %}
         <div class="alert">Sorry. No tasks todo....</div>
-    {% endif %}
+    {% endfor %}
+
 {% endblock %}

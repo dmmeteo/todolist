@@ -28,18 +28,21 @@ def tasks_list(request):
     return {'tasks': tasks, 'form': form}
 
 
+@render_to('tasks_by_status.html')
+def tasks_by_status(request, status):
+    title = status
+    tasks = request.db.view('tasks/by_status', key=status).rows
+    return {'tasks': tasks, 'title': title.title()}
+
+
 def change_status(request):
     if request.GET:
         try:
             doc = request.db[request.GET['task_id']]
-            if doc['status'] == 'active':
-                doc['status'] = 'completed'
-            elif doc['status'] == 'completed':
-                doc['status'] = 'active'
+            doc['status'] = request.GET['task_status']
             doc.save()
         except django_couch.ResourceNotFound:
             raise Http404
-        print doc
 
         return HttpResponse('ok', content_type='text/html')
     else:

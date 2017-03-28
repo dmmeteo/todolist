@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+    {% for task in tasks %}
+
+        <div id="{{ task.id }}" class="alert {{ task.value.priority }}" role="alert">
+
+            <button type="button" class="close" data-task-id="{{ task.id }}" data-status="closed" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <button type="button" class="done" data-task-id="{{ task.id }}" data-status="{{ task.value.status }}" aria-label="Done">
+                <span aria-hidden="true">
+                    {% if task.value.status == 'active' %}
+                        &#10003;
+                    {% else %}
+                        +
+                    {% endif %}
+                </span>
+            </button>
+
+            {% if task.value.status == 'active' %}
+                {{ task.value.description }}
+            {% elif task.value.status == 'completed' %}
+                <s>{{ task.value.description }}</s>
+            {% elif task.value.status == 'closed' %}
+                {{ task.value.description }}
+            {% endif %}
+        </div>
+
+    {% empty %}
+        <div class="alert">Sorry. No tasks todo....</div>
+    {% endfor %}
+
+{% endblock %}

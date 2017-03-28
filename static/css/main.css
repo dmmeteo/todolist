@@ -20,7 +20,7 @@ body {
 
 .done {
   float: left;
-  font-family: Arial;
+  font-family: system-ui;
   font-size: 1.5rem;
   font-weight: 700;
   line-height: 1;
