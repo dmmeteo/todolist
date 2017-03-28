@@ -21,17 +21,16 @@
                 {% endblock %}
             </div>
             <div class="col-md-3 col-lg-2 col-sm-12">
-                <nav class="nav flex-md-column flex-sm-row justify-content-center">
+                <nav class="nav nav-pills flex-md-column flex-sm-row justify-content-center">
                     <p class="nav-link">{% block items_left %}No{% endblock %} items left</p>
 
                     <a class="nav-link" href="{% url 'home' %}">All</a>
                     <a class="nav-link" href="{% url 'tasks_by_status' 'active' %}">Active</a>
                     <a class="nav-link" href="{% url 'tasks_by_status' 'completed' %}">Completed</a>
                     <a class="nav-link" href="{% url 'tasks_by_status' 'closed' %}">Closed</a>
-
-                    <a class="nav-link {% block items_completed %}{% endblock %}" href="{% url 'clear_items' %}">Clear completed</a>
                 </nav>
             </div>
+            {% include 'modal.html' %}
         </div>
     </div>
 

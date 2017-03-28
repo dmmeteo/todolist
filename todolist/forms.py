@@ -3,7 +3,7 @@ from django import forms
 
 class CreateTask(forms.Form):
     error_css_class = 'has-danger'
-    required_css_class = 'required'
+    label_class = 'col-lg-2'
     options = (
         ('normal', 'normal'),
         ('low', 'low'),
@@ -19,12 +19,10 @@ class CreateTask(forms.Form):
     priority = forms.ChoiceField(
         label=False,
         choices=options,
-        widget=forms.Select(attrs={"class": "col-6"})
     )
 
     def clean_priority(self):
         data = self.cleaned_data['priority']
-        print data
         if data not in ['normal', 'low', 'high', 'critical']:
             data = 'normal'
         return data

@@ -5,12 +5,6 @@
 
 {% block items_left %}{{ items_left }}{% endblock %}
 
-{% block items_completed %}
-    {% if items_completed|length == 0 %}
-        disabled
-    {% endif %}
-{% endblock %}
-
 {% block content %}
 
     {% for task in tasks %}

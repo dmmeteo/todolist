@@ -5,17 +5,20 @@
 
 {% block items_left %}{{ items_left }}{% endblock %}
 
-{% block items_completed %}
-    {% if items_completed|length == 0 %}
-        disabled
-    {% endif %}
-{% endblock %}
-
 {% block content %}
     <form method="post" class="" action="">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-primary">Create task</button>
+        <div class="row d-flex justify-content-around">
+            <button type="submit" class="col-5 btn btn-success">Create task</button>
+            <button type="button" class="col-5 btn btn-outline-danger"
+                    {% if items_completed|length == 0 %}
+                        disabled
+                    {% endif %}
+                    data-toggle="modal" data-target="#сlearModal">
+                Clear completed
+            </button>
+        </div>
     </form><br>
     {% for task in tasks %}
 

@@ -7,6 +7,7 @@ from couchdbcurl.client import Document
 import django_couch
 
 
+
 # Create your views here.
 @render_to('home.html')
 def tasks_list(request):
