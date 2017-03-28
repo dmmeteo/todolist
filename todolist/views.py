@@ -11,13 +11,15 @@ import django_couch
 @render_to('home.html')
 def tasks_list(request):
     tasks = request.db.view('tasks/all_tasks').rows
+    items_left = len(request.db.view('tasks/by_status', key='active').rows)
+    items_completed = request.db.view('tasks/by_status', key='completed').rows
     form = CreateTask(request.POST or None)
 
     if request.POST and form.is_valid():
         data = form.cleaned_data
         now = datetime.now()
-        doc = Document(_db=request.db, type='task')
         task_id = 'task_%s' % now.strftime("%d_%m_%Y_%H_%M_%S")
+        doc = Document(_db=request.db, type='task')
 
         doc.update(data)
         doc['created'] = now.isoformat()
@@ -25,14 +27,26 @@ def tasks_list(request):
         doc.create(task_id)
         return redirect('/')
 
-    return {'tasks': tasks, 'form': form}
+    return {
+        'tasks': tasks,
+        'form': form,
+        'items_left': items_left,
+        'items_completed': items_completed,
+    }
 
 
 @render_to('tasks_by_status.html')
 def tasks_by_status(request, status):
-    title = status
+    title = status.title()
     tasks = request.db.view('tasks/by_status', key=status).rows
-    return {'tasks': tasks, 'title': title.title()}
+    items_left = len(request.db.view('tasks/by_status', key='active').rows)
+    items_completed = request.db.view('tasks/by_status', key='completed').rows
+    return {
+        'tasks': tasks,
+        'title': title,
+        'items_left': items_left,
+        'items_completed': items_completed,
+    }
 
 
 def change_status(request):
@@ -47,3 +61,15 @@ def change_status(request):
         return HttpResponse('ok', content_type='text/html')
     else:
         return HttpResponse('no', content_type='text/html')
+
+
+def clear_items(request):
+    docs = request.db.view('tasks/by_status', key='completed').rows
+    for doc in docs:
+        try:
+            doc = request.db[doc.id]
+            doc['status'] = 'closed'
+            doc.save()
+        except django_couch.ResourceNotFound:
+            raise Http404
+    return redirect(request.META.get('HTTP_REFERER', '/'))

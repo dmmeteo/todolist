@@ -11,9 +11,16 @@ class CreateTask(forms.Form):
         ('critical', 'critical')
     )
 
-    priority = forms.ChoiceField(label=False, choices=options)
-    description = forms.CharField(label=False, max_length=300,
-                                  widget=forms.TextInput(attrs={"placeholder": "Task description"}))
+    description = forms.CharField(
+        label=False,
+        max_length=300,
+        widget=forms.TextInput(attrs={"placeholder": "Task description"})
+    )
+    priority = forms.ChoiceField(
+        label=False,
+        choices=options,
+        widget=forms.Select(attrs={"class": "col-6"})
+    )
 
     def clean_priority(self):
         data = self.cleaned_data['priority']
