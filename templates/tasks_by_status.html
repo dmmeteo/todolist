@@ -7,16 +7,16 @@
 
 {% block content %}
 
-    {% for task in tasks %}
+    {% for task_id, task in tasks.items %}
 
-        <div id="{{ task.id }}" class="alert {{ task.value.priority }}" role="alert">
+        <div id="{{ task_id }}" class="alert {{ task.priority }}" role="alert">
 
-            <button type="button" class="close" data-task-id="{{ task.id }}" data-status="closed" aria-label="Close">
+            <button type="button" class="close" data-task-id="{{ task_id }}" data-status="closed" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <button type="button" class="done" data-task-id="{{ task.id }}" data-status="{{ task.value.status }}" aria-label="Done">
+            <button type="button" class="done" data-task-id="{{ task_id }}" data-status="{{ task.status }}" aria-label="Done">
                 <span aria-hidden="true">
-                    {% if task.value.status == 'active' %}
+                    {% if task.status == 'active' %}
                         &#10003;
                     {% else %}
                         +
@@ -24,12 +24,12 @@
                 </span>
             </button>
 
-            {% if task.value.status == 'active' %}
-                {{ task.value.description }}
-            {% elif task.value.status == 'completed' %}
-                <s>{{ task.value.description }}</s>
-            {% elif task.value.status == 'closed' %}
-                {{ task.value.description }}
+            {% if task.status == 'active' %}
+                {{ task.description }}
+            {% elif task.status == 'completed' %}
+                <s>{{ task.description }}</s>
+            {% elif task.status == 'closed' %}
+                {{ task.description }}
             {% endif %}
         </div>
 

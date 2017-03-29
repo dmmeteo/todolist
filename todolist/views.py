@@ -10,9 +10,10 @@ import django_couch
 # Create your views here.
 @render_to('home.html')
 def tasks_list(request):
-    tasks = request.db.view('tasks/all_tasks').rows
-    items_left = len(request.db.view('tasks/by_status', key='active').rows)
-    items_completed = request.db.view('tasks/by_status', key='completed').rows
+    tasks = {row.id: row.doc for row in request.db.view('tasks/all_tasks', include_docs=True).rows}
+    items_left = request.db.view('tasks/by_status', key='active', reduce=True).rows[0].get('value')
+    items_completed = request.db.view('tasks/by_status', key='completed', reduce=False).rows
+    print items_completed
     form = CreateTaskFrom(request.POST or None)
 
     if request.POST and form.is_valid():
@@ -38,9 +39,12 @@ def tasks_list(request):
 @render_to('tasks_by_status.html')
 def tasks_by_status(request, status):
     title = status.title()
-    tasks = request.db.view('tasks/by_status', key=status).rows
-    items_left = len(request.db.view('tasks/by_status', key='active').rows)
-    items_completed = request.db.view('tasks/by_status', key='completed').rows
+    tasks = {row.id: row.doc for row in request.db.view('tasks/by_status',
+                                                        key=status,
+                                                        reduce=False,
+                                                        include_docs=True).rows}
+    items_left = request.db.view('tasks/by_status', key='active', reduce=True).rows[0].get('value')
+    items_completed = request.db.view('tasks/by_status', key='completed', reduce=False).rows
     return {
         'tasks': tasks,
         'title': title,
@@ -64,7 +68,7 @@ def change_status(request):
 
 
 def clear_items(request):
-    docs = request.db.view('tasks/by_status', key='completed').rows
+    docs = request.db.view('tasks/by_status', key='completed', reduce=False).rows
     for doc in docs:
         try:
             doc = request.db[doc.id]

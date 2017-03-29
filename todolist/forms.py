@@ -1,5 +1,4 @@
 from django import forms
-from django.core.exceptions import ValidationError
 
 
 class CreateTaskFrom(forms.Form):
@@ -20,14 +19,3 @@ class CreateTaskFrom(forms.Form):
         label=False,
         choices=options,
     )
-
-    # needless clean
-    def clean_priority(self):
-        data = self.cleaned_data['priority']
-        if data not in [a[0] for a in self.options]:
-            raise ValidationError(
-                'Invalid choice: %(value)s',
-                code='invalid',
-                params={'value': data},
-            )
-        return data
