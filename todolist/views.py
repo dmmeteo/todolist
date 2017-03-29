@@ -2,10 +2,9 @@ from django.shortcuts import redirect
 from django.http import HttpResponse, Http404
 from datetime import datetime
 from annoying.decorators import render_to
-from .forms import CreateTask
+from .forms import CreateTaskFrom
 from couchdbcurl.client import Document
 import django_couch
-
 
 
 # Create your views here.
@@ -14,7 +13,7 @@ def tasks_list(request):
     tasks = request.db.view('tasks/all_tasks').rows
     items_left = len(request.db.view('tasks/by_status', key='active').rows)
     items_completed = request.db.view('tasks/by_status', key='completed').rows
-    form = CreateTask(request.POST or None)
+    form = CreateTaskFrom(request.POST or None)
 
     if request.POST and form.is_valid():
         data = form.cleaned_data

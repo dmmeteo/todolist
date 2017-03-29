@@ -1,9 +1,9 @@
 from django import forms
+from django.core.exceptions import ValidationError
 
 
-class CreateTask(forms.Form):
+class CreateTaskFrom(forms.Form):
     error_css_class = 'has-danger'
-    label_class = 'col-lg-2'
     options = (
         ('normal', 'normal'),
         ('low', 'low'),
@@ -21,8 +21,13 @@ class CreateTask(forms.Form):
         choices=options,
     )
 
+    # needless clean
     def clean_priority(self):
         data = self.cleaned_data['priority']
-        if data not in ['normal', 'low', 'high', 'critical']:
-            data = 'normal'
+        if data not in [a[0] for a in self.options]:
+            raise ValidationError(
+                'Invalid choice: %(value)s',
+                code='invalid',
+                params={'value': data},
+            )
         return data
